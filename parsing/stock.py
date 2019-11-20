@@ -1,6 +1,7 @@
 #%%
 # step1. import package
 import requests
+import json
 import pandas as pd
 from io import StringIO
 
@@ -38,11 +39,19 @@ def stock_dividend(stock_num):
     return html_df.to_html(index=False)
 
 
-
+'''
 with open('stock_info.html', 'w') as sotck_file:
     sotck_file.write(stock_dividend('2454'))
 
 with open('stock_info.html', 'a') as sotck_file:
     sotck_file.write(stock_info('20191119', '2454'))
+'''
 
+stock_url = 'https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20191120&stockNo=2454&_=1574264462881'
+stock_req = requests.get(stock_url)
+data = json.loads(stock_req.text)
+print(data['title'])
+print(data['fields'])
+for row in data['data']:
+    print(row)
 # %%
